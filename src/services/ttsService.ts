@@ -56,19 +56,11 @@ async function generateAliyunSpeech(text: string, config: { baseUrl: string; api
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${config.apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: config.modelName,
-        input: {
-          text: text,
-          voice: voice,
-          language_type: 'Chinese',
-        },
-        parameters: {
-          format: 'wav',
-        },
+        text: text,
+        voice: voice
       }),
     });
 
