@@ -40,12 +40,18 @@ async function generateAliyunSpeech(text: string, config: { baseUrl: string; api
   try {
     // Aliyun 'qwen3-tts-flash' requires the Native API, not the OpenAI-compatible one.
     // We ignore config.baseUrl (which might be set to the compatible endpoint) and use the native one.
-    const nativeBaseUrl = 'https://dashscope.aliyuncs.com';
-    let endpoint = `${nativeBaseUrl}/api/v1/services/aigc/multimodal-generation/generation`;
+    let endpoint = 'https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation';
     
-    // Handle Proxy for local development
+    // Handle Proxy for local development OR use Cloudflare Worker proxy in production
     if (import.meta.env.DEV) {
-      endpoint = endpoint.replace(nativeBaseUrl, '/api/aliyun');
+      endpoint = '/api/aliyun/api/v1/services/aigc/multimodal-generation/generation';
+    } else {
+      // Use a public CORS proxy or your own proxy in production
+      // Here we use a known CORS proxy service for demonstration/MVP. 
+      // For production, you should deploy your own proxy.
+      // We will try to use 'corsproxy.io' as a temporary solution.
+      // Note: Do not send sensitive data through public proxies in real production apps.
+      endpoint = `https://corsproxy.io/?${encodeURIComponent(endpoint)}`;
     }
 
     // Capitalize voice name (e.g. cherry -> Cherry)
