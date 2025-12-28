@@ -219,12 +219,12 @@ export default function ExplanationPage() {
           <div 
             key={msg.id} 
             className={clsx(
-              "flex flex-col gap-1 max-w-[85%]",
-              msg.role === 'user' ? "self-end items-end" : "items-start"
+              "flex flex-col gap-1 w-full",
+              msg.role === 'user' ? "items-end" : "items-start"
             )}
           >
             <div className={clsx(
-              "p-3 rounded-2xl shadow-sm text-sm leading-relaxed whitespace-pre-wrap",
+              "p-3 rounded-2xl shadow-sm text-sm leading-relaxed whitespace-pre-wrap max-w-[85%]",
               msg.role === 'user' 
                 ? "bg-blue-600 text-white rounded-tr-none" 
                 : "bg-white border border-gray-100 text-gray-800 rounded-tl-none"

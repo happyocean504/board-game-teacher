@@ -213,7 +213,15 @@ export default function RuleAddPage() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium text-gray-800 truncate">
-                            {decodeURIComponent(url.split('/').pop() || 'Unknown File').slice(3)}
+                            {(() => {
+                              const filename = decodeURIComponent(url.split('/').pop() || 'Unknown File');
+                              // 如果是 1jour-1jeu 的链接（通常包含 1j1ju.com），且文件名前3个字符可能是hash，才去掉
+                              // 更安全的做法是：只有当 URL 包含 1j1ju.com 时才 slice(3)
+                              if (url.includes('1j1ju.com')) {
+                                return filename.slice(3);
+                              }
+                              return filename;
+                            })()}
                           </p>
                         </div>
                         <ExternalLink className="w-4 h-4 text-gray-300 group-hover:text-blue-500" />
